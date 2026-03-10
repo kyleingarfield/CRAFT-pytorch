@@ -79,6 +79,8 @@ def test_net(net, image, text_threshold, link_threshold, low_text, cuda, poly, r
     x = Variable(x.unsqueeze(0))                # [c, h, w] to [b, c, h, w]
     if cuda:
         x = x.cuda()
+    elif hasattr(torch.backends, 'mps') and torch.backends.mps.is_available():
+        x = x.to('mps')
 
     # forward pass
     with torch.no_grad():
